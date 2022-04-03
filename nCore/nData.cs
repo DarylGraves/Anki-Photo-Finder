@@ -5,9 +5,9 @@ namespace nCore;
 
 public class Tests
 {
-    string csv_1_noData = "../../../../Debug/Csvs/1_emptyFile.csv"; 
-    string csv_2_OnlyHeaders = "../../../../Debug/Csvs/2_onlyHeaders.csv"; 
-    string csv_3_OneRowOfData = "../../../../Debug/Csvs/3_oneRowOfData.csv";
+    string csv_1_noData = "../../../../SharedFiles/Csvs/1_emptyFile.csv"; 
+    string csv_2_OnlyHeaders = "../../../../SharedFiles/Csvs/2_onlyHeaders.csv"; 
+    string csv_3_OneRowOfData = "../../../../SharedFiles/Csvs/3_oneRowOfData.csv";
     
     [SetUp]
     public void Setup()
@@ -57,7 +57,7 @@ public class Tests
     }
 
     [Test]
-    public void ctor_3_OneRowOfData_ValidDelimiter()
+    public void ctor_3_OneRowOfData()
     {
         bool dataLoaded = false;
         try
