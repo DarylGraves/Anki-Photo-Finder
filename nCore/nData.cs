@@ -69,4 +69,16 @@ public class nData
         
         Assert.IsTrue(dataLoaded);
     }
+
+    [Test]
+    public void ReturnHeaders()
+    {
+        var myData = new Data(csv_3_OneRowOfData, ',');
+        var result = myData.ReturnHeaders();
+
+        StringAssert.AreEqualIgnoringCase("name", result[0]);
+        StringAssert.AreEqualIgnoringCase("age", result[1]);
+        StringAssert.AreEqualIgnoringCase("nationality", result[2]);
+        StringAssert.AreEqualIgnoringCase("notes", result[3]);
+    }
 }
