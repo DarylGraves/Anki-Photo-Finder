@@ -3,7 +3,7 @@ using Core;
 
 namespace nCore;
 
-public class Tests
+public class nData
 {
     string csv_1_noData = "../../../../SharedFiles/Csvs/1_emptyFile.csv"; 
     string csv_2_OnlyHeaders = "../../../../SharedFiles/Csvs/2_onlyHeaders.csv"; 

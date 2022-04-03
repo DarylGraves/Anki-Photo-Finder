@@ -44,4 +44,11 @@ public class Data
         }
     }
 
+    ///<summary>
+    /// Returns all the heads of the loaded Csv as a string array.
+    ///</summary>
+    public string[] ReturnHeaders()
+    {
+        return csv[0].Split(delimiter);
+    }
 }
