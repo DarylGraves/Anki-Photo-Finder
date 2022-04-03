@@ -81,4 +81,49 @@ public class nData
         StringAssert.AreEqualIgnoringCase("nationality", result[2]);
         StringAssert.AreEqualIgnoringCase("notes", result[3]);
     }
+    
+    [Test]
+    public void FindColumnNo_1()
+    {
+        var myData = new Data(csv_3_OneRowOfData, ',');
+        var result = myData.FindColumnNo("name");
+
+        Assert.AreEqual(0, result);
+    }
+
+    [Test]
+    public void FindColumnNo_2()
+    {
+        var myData = new Data(csv_3_OneRowOfData, ',');
+        var result = myData.FindColumnNo("age");
+
+        Assert.AreEqual(1, result);
+    }
+
+    [Test]
+    public void FindColumnNo_3()
+    {
+        var myData = new Data(csv_3_OneRowOfData, ',');
+        var result = myData.FindColumnNo("nationality");
+
+        Assert.AreEqual(2, result);
+    }
+
+    [Test]
+    public void FindColumnNo_4()
+    {
+        var myData = new Data(csv_3_OneRowOfData, ',');
+        var result = myData.FindColumnNo("notes");
+
+        Assert.AreEqual(3, result);
+    }
+    
+    [Test]
+    public void FindColumnNo_X()
+    {
+        var myData = new Data(csv_3_OneRowOfData, ',');
+        var result = myData.FindColumnNo("This doesn't exist!");
+
+        Assert.AreEqual(-1, result);
+    }
 }

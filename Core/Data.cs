@@ -5,6 +5,7 @@ public class Data
 {
     public string[] csv { get; }
     public char delimiter { get; }
+    public string[] headers { get; }
     
     // Constructor
     public Data(string path, char delimiter)
@@ -32,6 +33,8 @@ public class Data
                 // Accepted 
                 this.csv = csvToValidate;
                 this.delimiter = delimiter;
+
+                this.headers = csvToValidate[0].Split(delimiter);
             }
             else
             {
@@ -49,6 +52,20 @@ public class Data
     ///</summary>
     public string[] ReturnHeaders()
     {
-        return csv[0].Split(delimiter);
+        return headers;
+    }
+
+    public int FindColumnNo(string headerToFind)
+    {
+        for (int i = 0; i < headers.Length; i++)
+        {
+            if (headers[i] == headerToFind)
+            {
+                return i;
+            }
+        }
+        
+        // Header doesn't exist
+        return -1;
     }
 }
