@@ -71,10 +71,10 @@ public class nData
     }
 
     [Test]
-    public void ReturnHeaders()
+    public void GetHeaders()
     {
         var myData = new Data(csv_3_OneRowOfData, ',');
-        var result = myData.ReturnHeaders();
+        var result = myData.GetHeaders();
 
         StringAssert.AreEqualIgnoringCase("name", result[0]);
         StringAssert.AreEqualIgnoringCase("age", result[1]);

@@ -30,7 +30,7 @@ public class Data
             // Then check it includes the delimiter 
             if (csvToValidate[0].Split(delimiter).Count() > 1)
             {
-                // Accepted 
+                // This File was accepted 
                 this.csv = csvToValidate;
                 this.delimiter = delimiter;
 
@@ -50,7 +50,7 @@ public class Data
     ///<summary>
     /// Returns all the heads of the loaded Csv as a string array.
     ///</summary>
-    public string[] ReturnHeaders()
+    public string[] GetHeaders()
     {
         return headers;
     }
@@ -68,4 +68,12 @@ public class Data
         // Header doesn't exist
         return -1;
     }
+
+
+    //TODO: CreateCollection()
+        // Do we want to call this one something else? The Method will accept a column and then create the collection using the column as the index
+    //TODO: GetNextWord()
+    //TODO: GetPreviousWord()
+    //TODO: Save()
+        // Saves the Collection down as a CSV ready for Anki
 }
