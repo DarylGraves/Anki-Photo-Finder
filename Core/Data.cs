@@ -3,11 +3,15 @@ namespace Core;
 
 public class Data
 {
+    //TODO: Change most of these to Read-Only and use private variables for changes inside the class
     public string[] Csv { get; }
     public char Delimiter { get; }
     public string[] Headers { get; }
+    public string? KeywordHeader { get; set; }
     public List<string> Keywords {get; set;}
     public Dictionary<string, List<string>> WordRows { get; set; } 
+    public Stack<string>? KeywordsToDo { get; set; }
+    public Stack<string>? KeywordsComplete { get; set; }
 
     // Constructor
     public Data(string path, char Delimiter)
@@ -81,6 +85,8 @@ public class Data
            return;
         }
 
+        KeywordHeader = Csv[0].Split(Delimiter)[columnNo];
+
         foreach (var row in Csv)
         {
             var keyword = row.Split(Delimiter)[columnNo];
@@ -97,14 +103,37 @@ public class Data
 
             WordRows.Add(keyword, elements);
         }
-
-
     }
-    
-    //TODO: CreateCollection()
-        // Do we want to call this one something else? The Method will accept a column and then create the collection using the column as the index
-    //TODO: GetNextWord()
-    //TODO: GetPreviousWord()
+
+    public int AddColumn(string columnName)
+    {
+        if(KeywordHeader == null)
+        {
+            // CreateCollection() hasn't been ran yet
+            return -1;
+        }
+
+        // Check if header already exists
+        if(!(WordRows.ContainsKey(columnName)) && (!(WordRows[KeywordHeader].Contains(columnName))))
+        {
+            WordRows[KeywordHeader].Add(columnName);
+
+            for (int i = 0; i < WordRows[KeywordHeader].Count; i++)
+            {
+                if (WordRows[KeywordHeader][i] == columnName)
+                {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+   
+    public int AddColumnValue(string columnName, string keyword, string value)
+    {
+        //TODO: AddColumNValue()
+        return 0;
+    } 
     //TODO: Save()
         // Saves the Collection down as a CSV ready for Anki
 }

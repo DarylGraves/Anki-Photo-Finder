@@ -192,4 +192,40 @@ public class nData
         StringAssert.AreEqualIgnoringCase(expectedTwo, myData.WordRows[keyword][1]);
         StringAssert.AreEqualIgnoringCase(expectedThree, myData.WordRows[keyword][2]);
     }
+
+    [Test]
+    public void AddColumn()
+    {
+        var myData = new Data(csv_4_MultiRowsOfData, ',');
+        myData.CreateCollection(0);
+
+        myData.AddColumn("HairColour");
+        
+        var result = myData.WordRows[myData.KeywordHeader].Contains("HairColour");
+        Assert.IsTrue(result);
+
+    }
+    
+    [Test]
+    public void AddColumn_ReturnValue_1()
+    {
+        var myData = new Data(csv_4_MultiRowsOfData, ',');
+        myData.CreateCollection(0);
+    
+        var result = myData.AddColumn("HairColour");
+        Assert.AreEqual(3, result); 
+    }
+
+    [Test]
+    public void AddNewColumn_ReturnValue_2()
+    {
+        var myData = new Data(csv_4_MultiRowsOfData, ',');
+        myData.CreateCollection(0);
+    
+        var firstResult = myData.AddColumn("HairColour");
+        var secondResult = myData.AddColumn("Height");
+
+        Assert.AreEqual(3, firstResult); 
+        Assert.AreEqual(4, secondResult);
+    }
 }
