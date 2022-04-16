@@ -6,7 +6,8 @@ public class Data
     public string[] Csv { get; }
     public char Delimiter { get; }
     public string[] Headers { get; }
-    public List<string> Words {get; set;}
+    public List<string> Keywords {get; set;}
+    public Dictionary<string, List<string>> WordRows { get; set; } 
 
     // Constructor
     public Data(string path, char Delimiter)
@@ -36,8 +37,9 @@ public class Data
                 this.Delimiter = Delimiter;
 
 
-                this.Words = new List<string>();
+                this.Keywords = new List<string>();
                 this.Headers = csvToValidate[0].Split(Delimiter);
+                this.WordRows = new Dictionary<string, List<string>>();
             }
             else
             {
@@ -79,10 +81,23 @@ public class Data
            return;
         }
 
-        foreach (var row in Csv[1..])
+        foreach (var row in Csv)
         {
-           Words.Add(row.Split(this.Delimiter)[columnNo]);
+            var keyword = row.Split(Delimiter)[columnNo];
+            Keywords.Add(keyword);
+
+            List<string> elements = new List<string>();
+            foreach (var element in row.Split(Delimiter))
+            {
+                if (element != keyword)
+                {
+                    elements.Add(element);
+                }
+            }
+
+            WordRows.Add(keyword, elements);
         }
+
 
     }
     

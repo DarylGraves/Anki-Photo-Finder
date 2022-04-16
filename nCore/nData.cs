@@ -129,7 +129,7 @@ public class nData
     }
 
     [Test]
-    public void CreateListOfWords()
+    public void CreateKeyWords()
     {
         var myData = new Data(csv_4_MultiRowsOfData, ',');
         myData.CreateCollection(0);
@@ -139,10 +139,10 @@ public class nData
         var expectedThree = "Ally";
         var expectedFour = "Gonzo";
 
-        StringAssert.AreEqualIgnoringCase(expectedOne, myData.Words[0]);
-        StringAssert.AreEqualIgnoringCase(expectedTwo, myData.Words[1]);
-        StringAssert.AreEqualIgnoringCase(expectedThree, myData.Words[2]);
-        StringAssert.AreEqualIgnoringCase(expectedFour, myData.Words[3]);
+        StringAssert.AreEqualIgnoringCase(expectedOne, myData.Keywords[1]);
+        StringAssert.AreEqualIgnoringCase(expectedTwo, myData.Keywords[2]);
+        StringAssert.AreEqualIgnoringCase(expectedThree, myData.Keywords[3]);
+        StringAssert.AreEqualIgnoringCase(expectedFour, myData.Keywords[4]);
     }
     
 }
