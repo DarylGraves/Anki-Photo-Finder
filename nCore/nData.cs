@@ -8,6 +8,7 @@ public class nData
     string csv_1_noData = "../../../../SharedFiles/Csvs/1_emptyFile.csv"; 
     string csv_2_OnlyHeaders = "../../../../SharedFiles/Csvs/2_onlyHeaders.csv"; 
     string csv_3_OneRowOfData = "../../../../SharedFiles/Csvs/3_oneRowOfData.csv";
+    string csv_4_MultiRowsOfData = "../../../../SharedFiles/Csvs/4_MultiRowsOfData.csv";
     
     [SetUp]
     public void Setup()
@@ -126,4 +127,22 @@ public class nData
 
         Assert.AreEqual(-1, result);
     }
+
+    [Test]
+    public void CreateListOfWords()
+    {
+        var myData = new Data(csv_4_MultiRowsOfData, ',');
+        myData.CreateCollection(0);
+        
+        var expectedOne = "Charlie";
+        var expectedTwo = "Steve";
+        var expectedThree = "Ally";
+        var expectedFour = "Gonzo";
+
+        StringAssert.AreEqualIgnoringCase(expectedOne, myData.Words[0]);
+        StringAssert.AreEqualIgnoringCase(expectedTwo, myData.Words[1]);
+        StringAssert.AreEqualIgnoringCase(expectedThree, myData.Words[2]);
+        StringAssert.AreEqualIgnoringCase(expectedFour, myData.Words[3]);
+    }
+    
 }

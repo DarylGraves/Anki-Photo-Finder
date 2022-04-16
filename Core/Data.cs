@@ -3,12 +3,13 @@ namespace Core;
 
 public class Data
 {
-    public string[] csv { get; }
-    public char delimiter { get; }
-    public string[] headers { get; }
-    
+    public string[] Csv { get; }
+    public char Delimiter { get; }
+    public string[] Headers { get; }
+    public List<string> Words {get; set;}
+
     // Constructor
-    public Data(string path, char delimiter)
+    public Data(string path, char Delimiter)
     {
         string[] csvToValidate;
         
@@ -27,14 +28,16 @@ public class Data
         // First check there is more than just a header
         if (csvToValidate.Length > 1)
         {
-            // Then check it includes the delimiter 
-            if (csvToValidate[0].Split(delimiter).Count() > 1)
+            // Then check it includes the Delimiter 
+            if (csvToValidate[0].Split(Delimiter).Count() > 1)
             {
                 // This File was accepted 
-                this.csv = csvToValidate;
-                this.delimiter = delimiter;
+                this.Csv = csvToValidate;
+                this.Delimiter = Delimiter;
 
-                this.headers = csvToValidate[0].Split(delimiter);
+
+                this.Words = new List<string>();
+                this.Headers = csvToValidate[0].Split(Delimiter);
             }
             else
             {
@@ -52,14 +55,14 @@ public class Data
     ///</summary>
     public string[] GetHeaders()
     {
-        return headers;
+        return Headers;
     }
 
     public int FindColumnNo(string headerToFind)
     {
-        for (int i = 0; i < headers.Length; i++)
+        for (int i = 0; i < Headers.Length; i++)
         {
-            if (headers[i] == headerToFind)
+            if (Headers[i] == headerToFind)
             {
                 return i;
             }
@@ -69,7 +72,20 @@ public class Data
         return -1;
     }
 
+    public void CreateCollection(int columnNo)
+    {
+        if (Csv == null)
+        {
+           return;
+        }
 
+        foreach (var row in Csv[1..])
+        {
+           Words.Add(row.Split(this.Delimiter)[columnNo]);
+        }
+
+    }
+    
     //TODO: CreateCollection()
         // Do we want to call this one something else? The Method will accept a column and then create the collection using the column as the index
     //TODO: GetNextWord()
