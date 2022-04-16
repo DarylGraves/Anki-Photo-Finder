@@ -4,14 +4,15 @@ namespace Core;
 public class Data
 {
     //TODO: Change most of these to Read-Only and use private variables for changes inside the class
-    public string[] Csv { get; }
-    public char Delimiter { get; }
-    public string[] Headers { get; }
-    public Dictionary<string, List<string>> WordRows { get; set; } 
-    public List<string> Keywords {get; set;}
-    public string? KeywordHeader { get; set; }
-    public Stack<string>? KeywordsToDo { get; set; }
-    public Stack<string>? KeywordsComplete { get; set; }
+    private string[] csv;
+    private char Delimiter;
+    private string[] Headers; 
+    private Stack<string> KeywordsToDo;
+    private Stack<string> KeywordsCompleted;
+    
+    public Dictionary<string, List<string>> WordRows { get; private set; } 
+    public List<string> Keywords {get; private set;}
+    public string? KeywordHeader { get; private set; }
 
     // Constructor
     public Data(string path, char Delimiter)
@@ -38,7 +39,7 @@ public class Data
             if (csvToValidate[0].Split(Delimiter).Count() > 1)
             {
                 // This File was accepted 
-                this.Csv = csvToValidate;
+                this.csv = csvToValidate;
                 this.Delimiter = Delimiter;
 
 
@@ -65,6 +66,9 @@ public class Data
         return Headers;
     }
 
+    ///<summary>
+    /// Searches through the Csv headers for the "headerToFind" string. If found, returns the matching column number.
+    ///</summary>
     public int FindColumnNo(string headerToFind)
     {
         for (int i = 0; i < Headers.Length; i++)
@@ -79,16 +83,23 @@ public class Data
         return -1;
     }
 
+    ///<summary>
+    /// Used to create the Dictionary variable of the Csv. This requires a column number from the Csv first to determine index.
+    ///</summary>
     public void CreateCollection(int columnNo)
     {
-        if (Csv == null)
+        //TODO: CreateCollection() we could make an override which takes the KeywordHeader directly so no faffing around with column numbers.
+
+        if (csv == null)
         {
            return;
         }
 
-        KeywordHeader = Csv[0].Split(Delimiter)[columnNo];
+        // Get the Header 
+        KeywordHeader = csv[0].Split(Delimiter)[columnNo];
 
-        foreach (var row in Csv)
+        // Construct the Dictionary
+        foreach (var row in csv)
         {
             var keyword = row.Split(Delimiter)[columnNo];
             Keywords.Add(keyword);
@@ -104,8 +115,15 @@ public class Data
 
             WordRows.Add(keyword, elements);
         }
+
+        // Create the Stacks we'll be working through
+        KeywordsToDo = new Stack<string>();
+        KeywordsCompleted = new Stack<string>();
     }
 
+    ///<summary>
+    /// Adds a column header to the dictionary
+    ///</summary>
     public int AddColumn(string columnName)
     {
         if(KeywordHeader == null)
@@ -130,6 +148,9 @@ public class Data
         return -1;
     }
    
+    ///<summary>
+    /// Adds a value into a cell at the coordinates of the columnName (y) and keyword (x)
+    ///</summary>
     public int AddColumnValue(string columnName, string keyword, string value)
     {
         // TODO: AddColumnValue()
