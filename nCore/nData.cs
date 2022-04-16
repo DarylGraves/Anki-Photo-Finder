@@ -145,4 +145,51 @@ public class nData
         StringAssert.AreEqualIgnoringCase(expectedFour, myData.Keywords[4]);
     }
     
+    [Test]
+    public void CreateDictionaries_VerifyHeaders()
+    {
+        var myData = new Data(csv_4_MultiRowsOfData, ',');
+        myData.CreateCollection(0);
+
+        var keyword = "name";
+        var expectedOne = "age";
+        var expectedTwo = "nationality";
+        var expectedThree = "notes";
+
+        StringAssert.AreEqualIgnoringCase(expectedOne, myData.WordRows[keyword][0]);
+        StringAssert.AreEqualIgnoringCase(expectedTwo, myData.WordRows[keyword][1]);
+        StringAssert.AreEqualIgnoringCase(expectedThree, myData.WordRows[keyword][2]);
+    }
+    
+    [Test]
+    public void CreateDictionaries_VerifyaRow_1()
+    {
+        var myData = new Data(csv_4_MultiRowsOfData, ',');
+        myData.CreateCollection(0);
+    
+        var keyword = "Steve";
+        var expectedOne = "45";
+        var expectedTwo = "British";
+        var expectedThree = "Works day and night";
+    
+        StringAssert.AreEqualIgnoringCase(expectedOne, myData.WordRows[keyword][0]);
+        StringAssert.AreEqualIgnoringCase(expectedTwo, myData.WordRows[keyword][1]);
+        StringAssert.AreEqualIgnoringCase(expectedThree, myData.WordRows[keyword][2]);
+    }
+    
+    [Test]
+    public void CreateDictionaries_VerifyaRow_2()
+    {
+        var myData = new Data(csv_4_MultiRowsOfData, ',');
+        myData.CreateCollection(3);
+    
+        var keyword = "A lawyer";
+        var expectedOne = "Ally";
+        var expectedTwo = "28";
+        var expectedThree = "American";
+    
+        StringAssert.AreEqualIgnoringCase(expectedOne, myData.WordRows[keyword][0]);
+        StringAssert.AreEqualIgnoringCase(expectedTwo, myData.WordRows[keyword][1]);
+        StringAssert.AreEqualIgnoringCase(expectedThree, myData.WordRows[keyword][2]);
+    }
 }
