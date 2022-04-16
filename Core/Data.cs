@@ -7,9 +7,9 @@ public class Data
     public string[] Csv { get; }
     public char Delimiter { get; }
     public string[] Headers { get; }
-    public string? KeywordHeader { get; set; }
-    public List<string> Keywords {get; set;}
     public Dictionary<string, List<string>> WordRows { get; set; } 
+    public List<string> Keywords {get; set;}
+    public string? KeywordHeader { get; set; }
     public Stack<string>? KeywordsToDo { get; set; }
     public Stack<string>? KeywordsComplete { get; set; }
 
@@ -33,6 +33,7 @@ public class Data
         // First check there is more than just a header
         if (csvToValidate.Length > 1)
         {
+            // TODO: Are we checking that each row has the same number of columns?
             // Then check it includes the Delimiter 
             if (csvToValidate[0].Split(Delimiter).Count() > 1)
             {
@@ -131,8 +132,56 @@ public class Data
    
     public int AddColumnValue(string columnName, string keyword, string value)
     {
-        //TODO: AddColumNValue()
-        return 0;
+        // TODO: AddColumnValue()
+        if (KeywordHeader == null)
+        {
+            //CreateCollection() hasn't been ran yet
+            return -1;
+        }
+
+        // Get the column number
+        var columnNo = -1;
+        for (int i = 0; i < WordRows[KeywordHeader].Count; i++)
+        {
+            if (WordRows[KeywordHeader][i] == columnName)
+            {
+                columnNo = i;
+            }
+        }
+        
+        if (columnNo == -1)
+        {
+            columnNo = AddColumn(columnName);
+        }
+
+        // Now add the value to that column
+        try
+        {
+            WordRows[keyword][columnNo] = value;     
+        }
+        catch (System.Exception)
+        {
+            // The List<string> was not already present so needs to be made
+            var noOfColumns = WordRows[keyword].Count;
+            
+            if (noOfColumns < columnNo)
+            {
+                // TODO: AddColumnValue() - Might be better to have it update EVERY List<string> to make sure they're all consistently the same size.
+
+                // Add the required number of columns to the row.
+                var requiredColumns = columnNo - noOfColumns;
+                for (int i = 0; i < (requiredColumns -1); i++)
+                {
+                    WordRows[keyword].Add("NULL");
+                }
+
+            }
+            
+            WordRows[keyword].Add(value);
+            return columnNo;
+        }
+        
+        return -1;
     } 
     //TODO: Save()
         // Saves the Collection down as a CSV ready for Anki

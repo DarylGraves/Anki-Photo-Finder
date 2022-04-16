@@ -228,4 +228,49 @@ public class nData
         Assert.AreEqual(3, firstResult); 
         Assert.AreEqual(4, secondResult);
     }
+
+    [Test]
+    public void AddColumnAndValue()
+    {
+        var myData = new Data(csv_4_MultiRowsOfData, ',');
+        myData.CreateCollection(0);
+
+        var newColumn = myData.AddColumn("HairColour");
+        var charlieColumn = myData.AddColumnValue("HairColour", "Charlie", "Brown");
+        var steveColumn = myData.AddColumnValue("HairColour", "Steve", "Blonde");
+        var allyColumn = myData.AddColumnValue("HairColour", "Ally", "Purple");   
+        var gonzoColumn = myData.AddColumnValue("HairColour", "Gonzo", "N/A");   
+
+        var charlieResult = myData.WordRows["Charlie"][charlieColumn];    
+        var steveResult = myData.WordRows["Steve"][steveColumn];
+        var allyResult = myData.WordRows["Ally"][allyColumn];
+        var gonzoResult = myData.WordRows["Gonzo"][gonzoColumn];
+
+        StringAssert.AreEqualIgnoringCase("Brown", charlieResult);
+        StringAssert.AreEqualIgnoringCase("Blonde", steveResult);
+        StringAssert.AreEqualIgnoringCase("Purple", allyResult);
+        StringAssert.AreEqualIgnoringCase("N/A", gonzoResult);
+    }
+
+    [Test]
+    public void AddValueNoColumn()
+    {
+        var myData = new Data(csv_4_MultiRowsOfData, ',');
+        myData.CreateCollection(0);
+    
+        var charlieColumn = myData.AddColumnValue("HairColour", "Charlie", "Brown");
+        var steveColumn = myData.AddColumnValue("HairColour", "Steve", "Blonde");
+        var allyColumn = myData.AddColumnValue("HairColour", "Ally", "Purple");   
+        var gonzoColumn = myData.AddColumnValue("HairColour", "Gonzo", "N/A");   
+    
+        var charlieResult = myData.WordRows["Charlie"][charlieColumn];    
+        var steveResult = myData.WordRows["Steve"][steveColumn];
+        var allyResult = myData.WordRows["Ally"][allyColumn];
+        var gonzoResult = myData.WordRows["Gonzo"][gonzoColumn];
+    
+        StringAssert.AreEqualIgnoringCase("Brown", charlieResult);
+        StringAssert.AreEqualIgnoringCase("Blonde", steveResult);
+        StringAssert.AreEqualIgnoringCase("Purple", allyResult);
+        StringAssert.AreEqualIgnoringCase("N/A", gonzoResult);
+    }
 }
