@@ -1,4 +1,6 @@
 using NUnit.Framework;
+using System.IO;
+
 using Core;
 
 namespace nCore;
@@ -9,10 +11,15 @@ public class nData
     string csv_2_OnlyHeaders = "../../../../SharedFiles/Csvs/2_onlyHeaders.csv"; 
     string csv_3_OneRowOfData = "../../../../SharedFiles/Csvs/3_oneRowOfData.csv";
     string csv_4_MultiRowsOfData = "../../../../SharedFiles/Csvs/4_MultiRowsOfData.csv";
-    
+    string saveLocation = "../../../../SharedFiles/Csvs/Output/Test.csv";
+
     [SetUp]
     public void Setup()
     {
+        if (File.Exists(saveLocation))
+        {
+            File.Delete(saveLocation);
+        }
     }
 
     [Test]
@@ -272,5 +279,13 @@ public class nData
         StringAssert.AreEqualIgnoringCase("Blonde", steveResult);
         StringAssert.AreEqualIgnoringCase("Purple", allyResult);
         StringAssert.AreEqualIgnoringCase("N/A", gonzoResult);
+    }
+
+    [Test]
+    public void Save()
+    {
+        var myData = new Data(csv_4_MultiRowsOfData, ',');
+        myData.CreateCollection(0);
+        myData.Save(saveLocation);
     }
 }

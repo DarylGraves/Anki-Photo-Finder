@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Text;
+
 namespace Core;
 
 public class Data
@@ -204,6 +206,40 @@ public class Data
         
         return -1;
     } 
+
+    public void Save(string path)
+    {
+        //TODO: Data.Save() This needs to be finished... What happens if it throws an error, closes the file and then tries to close a file again? Must be a better way.
+        //TODO: Data.Save() Remove "var myint = 0;" - This was just a debugging breakpoint.
+        //TODO: Data.Save() Need to update the Save() Unit Test to actually assert.
+        //TODO: Data.Save() Check the Setup() in Unit Test does actually delete the file.
+        //TODO: Data.Save() Need to make sure this is still working correctly when we add a new column and data to the column. What happens if we have rows which vary in column length?
+
+        var destinationFile = File.AppendText(path);
+        try
+        {
+            foreach (var keyword in Keywords)
+            {
+                StringBuilder rows = new StringBuilder();
+
+                foreach (var value in WordRows[keyword])
+                {
+                    rows.Append(value + Delimiter);                
+                }
+
+                string rowAsString = keyword + Delimiter + rows + '\n';
+                destinationFile.Write(rowAsString);
+            }          
+        }
+        catch (System.Exception)
+        {
+            destinationFile.Close();
+            throw;
+        }
+
+        destinationFile.Close();
+        var myint = 0;
+    }
     //TODO: Save()
         // Saves the Collection down as a CSV ready for Anki
 }
