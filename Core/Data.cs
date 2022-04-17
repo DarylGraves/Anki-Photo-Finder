@@ -209,12 +209,9 @@ public class Data
 
     public void Save(string path)
     {
-        //TODO: Data.Save() This needs to be finished... What happens if it throws an error, closes the file and then tries to close a file again? Must be a better way.
         //TODO: Data.Save() Remove "var myint = 0;" - This was just a debugging breakpoint.
         //TODO: Data.Save() Need to update the Save() Unit Test to actually assert.
-        //TODO: Data.Save() Check the Setup() in Unit Test does actually delete the file.
         //TODO: Data.Save() Need to make sure this is still working correctly when we add a new column and data to the column. What happens if we have rows which vary in column length?
-        //TODO: Data.Save() The final cell in a row currently has the delimiter added to the end which is causing a new column to be added... Need to remove that
 
         var destinationFile = File.AppendText(path);
         try
@@ -223,14 +220,28 @@ public class Data
             {
                 StringBuilder rows = new StringBuilder();
 
-                foreach (var value in WordRows[keyword])
+                for (int i = 0; i < WordRows[keyword].Count; i++)
                 {
-                    rows.Append(value + Delimiter);                
+                    if (i != WordRows[keyword].Count -1)
+                    {
+                        rows.Append(WordRows[keyword][i] + Delimiter);
+                    }
+                    else
+                    {
+                        rows.Append(WordRows[keyword][i]);
+                    }
                 }
 
+                // foreach (var value in WordRows[keyword])
+                // {
+                    // rows.Append(value + Delimiter);                
+                // }
+// 
                 string rowAsString = keyword + Delimiter + rows + '\n';
                 destinationFile.Write(rowAsString);
             }          
+
+            destinationFile.Close();
         }
         catch (System.Exception)
         {
@@ -238,7 +249,6 @@ public class Data
             throw;
         }
 
-        destinationFile.Close();
         var myint = 0;
     }
     //TODO: Save()
