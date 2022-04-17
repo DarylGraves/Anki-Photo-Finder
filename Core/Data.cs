@@ -9,8 +9,8 @@ public class Data
     private string[] csv;
     private char Delimiter;
     private string[] Headers; 
-    private Stack<string> KeywordsToDo;
-    private Stack<string> KeywordsCompleted;
+    private Stack<string>? KeywordsToDo;
+    private Stack<string>? KeywordsCompleted;
     
     public Dictionary<string, List<string>> WordRows { get; private set; } 
     public List<string> Keywords {get; private set;}

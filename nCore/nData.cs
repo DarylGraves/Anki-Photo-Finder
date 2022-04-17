@@ -209,9 +209,13 @@ public class nData
 
         myData.AddColumn("HairColour");
         
-        var result = myData.WordRows[myData.KeywordHeader].Contains("HairColour");
+        var result = false;
+        if (myData.KeywordHeader != null)
+        {
+            result = myData.WordRows[myData.KeywordHeader].Contains("HairColour");    
+        }
+        
         Assert.IsTrue(result);
-
     }
     
     [Test]
