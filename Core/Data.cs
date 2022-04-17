@@ -37,6 +37,17 @@ public class Data
         if (csvToValidate.Length > 1)
         {
             // TODO: Are we checking that each row has the same number of columns?
+            var rowCount = csvToValidate[0].Split(Delimiter).Count();
+
+            for (int i = 0; i < csvToValidate.Length; i++)
+            {
+                if (csvToValidate[i].Split(Delimiter).Count() != rowCount)
+                {
+                    throw new Exception("Csv does not have a consistent number of rows!");
+                }
+            }
+
+
             // Then check it includes the Delimiter 
             if (csvToValidate[0].Split(Delimiter).Count() > 1)
             {
@@ -146,7 +157,7 @@ public class Data
                 // Skip the header row
                 if (keyword != KeywordHeader)
                 {
-                    WordRows[keyword].Add("NULL");       
+                    WordRows[keyword].Add("");       
                 }
             }
 

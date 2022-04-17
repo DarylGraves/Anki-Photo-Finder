@@ -11,6 +11,7 @@ public class nData
     string csv_2_OnlyHeaders = "../../../../SharedFiles/Csvs/2_onlyHeaders.csv"; 
     string csv_3_OneRowOfData = "../../../../SharedFiles/Csvs/3_oneRowOfData.csv";
     string csv_4_MultiRowsOfData = "../../../../SharedFiles/Csvs/4_MultiRowsOfData.csv";
+    string  csv_5_MultiRowsOfData_InconsistentWidths = "../../../../SharedFiles/Csvs/5_MultiRowsOfData_InconsistentWidths.csv";
     string saveLocation = "../../../../SharedFiles/Csvs/Output/Test.csv";
 
     [SetUp]
@@ -335,11 +336,28 @@ public class nData
         var myFile = File.ReadAllLines(saveLocation);
 
         string expectedHeader = "name,age,nationality,notes,HairColour";
-        string expectedSteve = "Steve,45,British,Works day and night,NULL";
-        string expectedAlly = "Ally,28,American,A lawyer,NULL";
+        string expectedSteve = "Steve,45,British,Works day and night,";
+        string expectedAlly = "Ally,28,American,A lawyer,";
 
         StringAssert.AreEqualIgnoringCase(expectedHeader, myFile[0]);
         StringAssert.AreEqualIgnoringCase(expectedSteve, myFile[2]);
         StringAssert.AreEqualIgnoringCase(expectedAlly, myFile[3]);
+    }
+
+    [Test]
+    public void ctor_5_InconsistentWidth()
+    {
+        bool throwError = true;
+        try
+        {
+            var myData = new Data(csv_5_MultiRowsOfData_InconsistentWidths, ',');
+            throwError = false;
+        }
+        catch (System.Exception)
+        {
+            throwError = true;
+        }
+        
+        Assert.IsTrue(throwError);
     }
 }
