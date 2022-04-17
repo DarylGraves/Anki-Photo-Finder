@@ -322,4 +322,24 @@ public class nData
         StringAssert.AreEqualIgnoringCase(expectedSteve, MyFile[2]);
         StringAssert.AreEqualIgnoringCase(expectedAlly, MyFile[3]);
     }
+
+    [Test]
+    public void AddColumn_IsWidthConsistentAcrossRows()
+    {
+        var myData = new Data(csv_4_MultiRowsOfData, ',');
+        myData.CreateCollection(0);
+
+        myData.AddColumn("HairColour");
+        myData.Save(saveLocation);
+
+        var myFile = File.ReadAllLines(saveLocation);
+
+        string expectedHeader = "name,age,nationality,notes,HairColour";
+        string expectedSteve = "Steve,45,British,Works day and night,NULL";
+        string expectedAlly = "Ally,28,American,A lawyer,NULL";
+
+        StringAssert.AreEqualIgnoringCase(expectedHeader, myFile[0]);
+        StringAssert.AreEqualIgnoringCase(expectedSteve, myFile[2]);
+        StringAssert.AreEqualIgnoringCase(expectedAlly, myFile[3]);
+    }
 }

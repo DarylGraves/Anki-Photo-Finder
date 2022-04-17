@@ -135,11 +135,23 @@ public class Data
             return -1;
         }
 
-        // Check if header already exists
+        // If the header doesn't already exist
         if(!(WordRows.ContainsKey(columnName)) && (!(WordRows[KeywordHeader].Contains(columnName))))
         {
             WordRows[KeywordHeader].Add(columnName);
 
+            // Add a new cell in each row to ensure they all keep the same width
+            foreach (var keyword in Keywords)
+            {
+                // Skip the header row
+                if (keyword != KeywordHeader)
+                {
+                    WordRows[keyword].Add("NULL");       
+                }
+            }
+
+
+            // Find the column number of the new entry and return it
             for (int i = 0; i < WordRows[KeywordHeader].Count; i++)
             {
                 if (WordRows[KeywordHeader][i] == columnName)
@@ -156,7 +168,6 @@ public class Data
     ///</summary>
     public int AddColumnValue(string columnName, string keyword, string value)
     {
-        // TODO: AddColumnValue()
         if (KeywordHeader == null)
         {
             //CreateCollection() hasn't been ran yet
@@ -173,44 +184,23 @@ public class Data
             }
         }
         
+        // If the column doesn't already exist, create it
         if (columnNo == -1)
         {
             columnNo = AddColumn(columnName);
         }
 
-        // Now add the value to that column
-        try
-        {
-            WordRows[keyword][columnNo] = value;     
-        }
-        catch (System.Exception)
-        {
-            // The List<string> was not already present so needs to be made
-            var noOfColumns = WordRows[keyword].Count;
-            
-            if (noOfColumns < columnNo)
-            {
-                // TODO: AddColumnValue() - Might be better to have it update EVERY List<string> to make sure they're all consistently the same size.
-
-                // Add the required number of columns to the row.
-                var requiredColumns = columnNo - noOfColumns;
-                for (int i = 0; i < (requiredColumns -1); i++)
-                {
-                    WordRows[keyword].Add("NULL");
-                }
-
-            }
-            
-            WordRows[keyword].Add(value);
-            return columnNo;
-        }
-        
-        return -1;
+        // Now add the value to the column
+        WordRows[keyword][columnNo] = value;
+        return columnNo;     
     } 
 
     public void Save(string path)
     {
         //TODO: Data.Save() Need to make sure this is still working correctly when we add a new column and data to the column. What happens if we have rows which vary in column length?
+        //TODO: Data.Save() What happens if a cell has a space - Do we need to wrap it in quotes?
+        //TODO: Data.Save() What happens if a cell has quotation marks - Do we need to do anything special?
+        //TODO: Data.Save() What happens if a cell has a space AND quotation marks? Need to look into how Csvs work in this respect.
 
         var destinationFile = File.AppendText(path);
         try
