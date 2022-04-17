@@ -282,10 +282,44 @@ public class nData
     }
 
     [Test]
-    public void Save()
+    public void Save_1_NoChanges()
     {
         var myData = new Data(csv_4_MultiRowsOfData, ',');
         myData.CreateCollection(0);
         myData.Save(saveLocation);
+
+        var myFile = File.ReadAllLines(saveLocation);
+
+        string expectedHeader = "name,age,nationality,notes";
+        string expectedSteve = "Steve,45,British,Works day and night";
+        string expectedAlly = "Ally,28,American,A lawyer";
+
+        StringAssert.AreEqualIgnoringCase(expectedHeader, myFile[0]);
+        StringAssert.AreEqualIgnoringCase(expectedSteve, myFile[2]);
+        StringAssert.AreEqualIgnoringCase(expectedAlly, myFile[3]);
+    }
+
+    [Test]
+    public void Save_2_NewColumn()
+    {
+        var myData = new Data(csv_4_MultiRowsOfData, ',');
+        myData.CreateCollection(0);
+        
+        myData.AddColumn("HairColour");
+        myData.AddColumnValue("HairColour", "Charlie", "Brown");
+        myData.AddColumnValue("HairColour", "Steve", "Blonde");
+        myData.AddColumnValue("HairColour", "Ally", "Purple");
+        myData.AddColumnValue("HairColour", "Gonzo", "N/A");
+        myData.Save(saveLocation);
+
+        var MyFile = File.ReadAllLines(saveLocation);
+
+        string expectedHeader = "name,age,nationality,notes,HairColour";
+        string expectedSteve = "Steve,45,British,Works day and night,Blonde";
+        string expectedAlly = "Ally,28,American,A lawyer,Purple";
+        
+        StringAssert.AreEqualIgnoringCase(expectedHeader, MyFile[0]);
+        StringAssert.AreEqualIgnoringCase(expectedSteve, MyFile[2]);
+        StringAssert.AreEqualIgnoringCase(expectedAlly, MyFile[3]);
     }
 }

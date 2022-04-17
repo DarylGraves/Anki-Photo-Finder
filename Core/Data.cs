@@ -128,6 +128,7 @@ public class Data
     ///</summary>
     public int AddColumn(string columnName)
     {
+        //TODO: Data.AddColumn() - Should add null entries manually for every row
         if(KeywordHeader == null)
         {
             // CreateCollection() hasn't been ran yet
@@ -209,8 +210,6 @@ public class Data
 
     public void Save(string path)
     {
-        //TODO: Data.Save() Remove "var myint = 0;" - This was just a debugging breakpoint.
-        //TODO: Data.Save() Need to update the Save() Unit Test to actually assert.
         //TODO: Data.Save() Need to make sure this is still working correctly when we add a new column and data to the column. What happens if we have rows which vary in column length?
 
         var destinationFile = File.AppendText(path);
@@ -232,11 +231,6 @@ public class Data
                     }
                 }
 
-                // foreach (var value in WordRows[keyword])
-                // {
-                    // rows.Append(value + Delimiter);                
-                // }
-// 
                 string rowAsString = keyword + Delimiter + rows + '\n';
                 destinationFile.Write(rowAsString);
             }          
@@ -248,9 +242,5 @@ public class Data
             destinationFile.Close();
             throw;
         }
-
-        var myint = 0;
     }
-    //TODO: Save()
-        // Saves the Collection down as a CSV ready for Anki
 }
