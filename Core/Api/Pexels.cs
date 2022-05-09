@@ -13,7 +13,7 @@ public class Pexels
         httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(apiKey);
     }
 
-    public async Task<List<string>> GetPictureUrls(string keyWord)
+    public async Task<List<string>> QueryApiAsync(string keyWord)
     {
         HttpResponseMessage response;
         try
@@ -33,13 +33,54 @@ public class Pexels
 
         var jsonData = JsonSerializer.Deserialize<JsonResponse>(resultAsText);
 
-        List<string> links = new List<string>(); 
-
-        for (int i = 0; i < jsonData.photos.Count(); i++)
-        {
-            links.Add(jsonData.photos[i].src.small);
-        }
+        var links = ConvertJsonToUrls(jsonData);
 
         return links;
+    }
+
+    public List<string> ConvertJsonToUrls(JsonResponse json)
+    {
+        List<string> urls = new List<string>();
+
+        for (int i = 0; i < json.photos.Count(); i++)
+        {
+            urls.Add(json.photos[i].src.small);
+        }
+        
+        return urls;
+    }
+
+    public async Task<List<Byte[]>> GetPicturesAsync(List<String> urls)
+    {
+        List<Byte[]> pictures = new List<Byte[]>();
+
+        foreach (var url in urls)
+        {
+            var response = await httpClient.GetAsync(url);
+            
+            try
+            {
+                response.EnsureSuccessStatusCode();
+            }
+            catch (System.Exception e)
+            {
+                throw new HttpRequestException($"Error occured {e}");
+            }
+
+            byte[] picture = await response.Content.ReadAsByteArrayAsync();
+            pictures.Add(picture);
+        }
+
+        return pictures;
+    }
+
+    public async void SavePictureAsync(byte[] data, string path, string filename)
+    {
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+
+        await File.WriteAllBytesAsync(path + "/" + filename, data);
     }
 }
