@@ -1,11 +1,14 @@
 using NUnit.Framework;
 using System.IO;
 using Core.Api;
+using System.Threading.Tasks;
 
 namespace nCore;
 
 public class nPexels
 {
+    string apiKey = "";
+    
     [SetUp]
     public void Setup()
     {
@@ -16,13 +19,20 @@ public class nPexels
             throw new FileNotFoundException("Missing Pexels Api Key for Unit Tests");   
         }
 
-        string apiKey = File.ReadAllText(keyPath);
+        apiKey = File.ReadAllText(keyPath);
+        apiKey = apiKey.Split('\n')[0];
     }
 
     [Test]
-    public void Template()
+    public async Task Template()
     {
-        var Pexels = new Pexels("Hello, World");
-        StringAssert.AreEqualIgnoringCase("Hello, World", Pexels.Test);
+        var pexels = new Pexels(apiKey, new System.Net.Http.HttpClient());
+        var result = await pexels.GetPictureUrls("cat");
+
+        // We can't assert the URL is correct in case the API changes it so we need to be more generic...
+
+        int count = result.Count;
+
+        Assert.Greater(count, 1);
     }
 }
