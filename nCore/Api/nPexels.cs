@@ -44,7 +44,8 @@ public class nPexels
     public async Task SavePicture()
     {
         string filePath = "../../../../SharedFiles/Secure/PictureTest/";
-        
+        bool fileExists = false;
+
         if (File.Exists(filePath + "cat.jpg"))
         {
             File.Delete(filePath + "cat.jpg");
@@ -52,7 +53,7 @@ public class nPexels
 
         var pexels = new Pexels(apiKey, new System.Net.Http.HttpClient());
         
-        // This is NOT the usual way of doing this - usually we'd use pexels.GetPictureUrlAsync() but that calls the Api
+        // This is NOT the usual way of doing this - usually we'd use pexels.GetPictureUrlAsync() but that calls the Api and we want to preserve the number of calls.
         var resultAsText = File.ReadAllText("../../../../SharedFiles/JsonOutput/Pexels/cat.json");
 
         var resultAsJson = JsonSerializer.Deserialize<JsonResponse>(resultAsText);
@@ -61,5 +62,16 @@ public class nPexels
 
         var pics = await pexels.GetPicturesAsync(urls);
         pexels.SavePictureAsync(pics[0], filePath, "cat.jpg");
+        
+        if (File.Exists(filePath + "cat.jpg"))
+        {
+            fileExists = true;   
+        }
+        else
+        {
+            fileExists = false;
+        }
+
+        Assert.True(fileExists);
     }
 }
