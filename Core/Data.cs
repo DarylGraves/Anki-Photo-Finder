@@ -75,7 +75,7 @@ public class Data
     }
 
     ///<summary>
-    /// Returns all the heads of the loaded Csv as a string array.
+    /// Returns all the headers of the loaded Csv as a string array.
     ///</summary>
     public string[] GetHeaders()
     {
@@ -206,6 +206,9 @@ public class Data
         return columnNo;     
     } 
 
+    ///<summary>
+    /// Saves the data currently in memory to a location on the computer
+    ///</summary>
     public void Save(string path)
     {
         //TODO: Data.Save() Need to make sure this is still working correctly when we add a new column and data to the column. What happens if we have rows which vary in column length?
