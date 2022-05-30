@@ -9,9 +9,10 @@ public class Data
     public char Delimiter;
     private string[] headers;
     private int columnNo;
-    private Stack<string>? KeywordsToDo;
-    private Stack<string>? KeywordsCompleted;
-    
+    public Stack<string>? KeywordsToDo;
+    public Stack<string>? KeywordsCompleted;
+    public event EventHandler OnDataLoaded; 
+
     //TODO: Data.Dictionary should be private but needs untangling because it will break Unit Tests
     public Dictionary<string, List<string>> WordRows { get; private set; } 
 
@@ -142,7 +143,7 @@ public class Data
             KeywordsToDo.Push(keyword);
         }
 
-        System.Diagnostics.Debug.Write("Test");
+        OnDataLoaded(this, EventArgs.Empty);
     }
 
     ///<summary>

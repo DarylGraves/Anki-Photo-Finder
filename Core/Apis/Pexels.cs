@@ -29,7 +29,7 @@ public class Pexels : Api
         try
         {
             string theUrl = url + "search?query=" + keyWord;
-            response = await httpClient.GetAsync(theUrl);
+            response = await Controller.httpClient.GetAsync(theUrl);
             response.EnsureSuccessStatusCode();
         }
         catch (HttpRequestException e)
@@ -54,7 +54,7 @@ public class Pexels : Api
 
         foreach (var url in urls)
         {
-            var response = await httpClient.GetAsync(url);
+            var response = await Controller.httpClient.GetAsync(url);
             
             try
             {
