@@ -5,9 +5,10 @@ namespace Core;
 public class Data
 {
     //TODO: Data.Fields - Change to Read-Only where poss and use private variables for changes inside the class
-    private string[] csv;
-    private char delimiter;
-    private string[] headers; 
+    public string[] Csv;
+    public char Delimiter;
+    private string[] headers;
+    private int columnNo;
     private Stack<string>? KeywordsToDo;
     private Stack<string>? KeywordsCompleted;
     
@@ -55,8 +56,8 @@ public class Data
             if (csvToValidate[0].Split(Delimiter).Count() > 1)
             {
                 // This File was accepted 
-                this.csv = csvToValidate;
-                this.delimiter = Delimiter;
+                this.Csv = csvToValidate;
+                this.Delimiter = Delimiter;
 
 
                 this.Keywords = new List<string>();
@@ -85,41 +86,42 @@ public class Data
     ///<summary>
     /// Searches through the Csv headers for the "headerToFind" string. If found, returns the matching column number.
     ///</summary>
-    public int FindColumnNo(string headerToFind)
+    public void FindColumnNo(string headerToFind)
     {
         for (int i = 0; i < headers.Length; i++)
         {
             if (headers[i] == headerToFind)
             {
-                return i;
+                columnNo = i;
+                return;
             }
         }
         
         // Header doesn't exist
-        return -1;
+        columnNo = -1;
     }
 
     ///<summary>
-    /// Used to create the Dictionary variable of the Csv. This requires a column number from the Csv first to determine index.
+    /// Used to create the Dictionary variable of the Csv. 
     ///</summary>
-    public void CreateCollection(int columnNo)
+    public void CreateCollection()
     {
-        if (csv == null)
+        if (Csv == null)
         {
            return;
         }
 
         // Get the Header 
-        KeywordHeader = csv[0].Split(delimiter)[columnNo];
+        KeywordHeader = Csv[0].Split(Delimiter)[columnNo];
 
         // Construct the Dictionary
-        foreach (var row in csv)
+        foreach (var row in Csv)
         {
-            var keyword = row.Split(delimiter)[columnNo];
+            var keyword = row.Split(Delimiter)[columnNo];
             Keywords.Add(keyword);
 
             List<string> elements = new List<string>();
-            foreach (var element in row.Split(delimiter))
+            foreach (var element in row.Split(Delimiter))
             {
                 if (element != keyword)
                 {
@@ -131,8 +133,16 @@ public class Data
         }
 
         // Create the Stacks we'll be working through
-        KeywordsToDo = new Stack<string>();
+        KeywordsToDo = new Stack<string>();        
         KeywordsCompleted = new Stack<string>();
+
+        // Populate the Todo List
+        foreach (var keyword in WordRows.Keys)
+        {
+            KeywordsToDo.Push(keyword);
+        }
+
+        System.Diagnostics.Debug.Write("Test");
     }
 
     ///<summary>
@@ -227,7 +237,7 @@ public class Data
                 {
                     if (i != WordRows[keyword].Count -1)
                     {
-                        rows.Append(WordRows[keyword][i] + delimiter);
+                        rows.Append(WordRows[keyword][i] + Delimiter);
                     }
                     else
                     {
@@ -235,7 +245,7 @@ public class Data
                     }
                 }
 
-                string rowAsString = keyword + delimiter + rows + '\n';
+                string rowAsString = keyword + Delimiter + rows + '\n';
                 destinationFile.Write(rowAsString);
             }          
 

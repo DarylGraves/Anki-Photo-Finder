@@ -1,0 +1,44 @@
+﻿<Window x:Class="Gui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gui"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1000">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="25"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Image Name="PicOne" Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch" Source="C:\Dev\Anki-Photo-Finder\SharedFiles\Misc\Tiger.jpg"/>
+        <Image Name="PicTwo" Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch" Source="C:\Dev\Anki-Photo-Finder\SharedFiles\Misc\Tiger.jpg"/>
+        <Image Name="PicThree" Grid.Column="3" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch" Source="C:\Dev\Anki-Photo-Finder\SharedFiles\Misc\Tiger.jpg"/>
+        <Image Name="PicFour" Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch" Source="C:\Dev\Anki-Photo-Finder\SharedFiles\Misc\Tiger.jpg"/>
+        <Image Name="PicFive" Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch" Source="C:\Dev\Anki-Photo-Finder\SharedFiles\Misc\Tiger.jpg"/>
+        <Image Name="PicSix" Grid.Column="3" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch" Source="C:\Dev\Anki-Photo-Finder\SharedFiles\Misc\Tiger.jpg"/>
+
+        <StatusBar Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="5">
+            <StatusBarItem Name="myStatusBar" HorizontalAlignment="Right"/>
+        </StatusBar>
+
+        <Menu Grid.Column="0" Grid.ColumnSpan="5">
+            <MenuItem Header="_Open Csv" Click="OpenCsv_Click"/>
+            <MenuItem Header="_Settings" Click="Settings_Click"/>
+            <MenuItem Header="_Test" Click="MenuItem_Click"/>
+        </Menu>
+    </Grid>
+</Window>

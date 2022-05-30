@@ -1,0 +1,20 @@
+﻿<Window x:Class="Gui.Csv_Preview"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gui"
+        mc:Ignorable="d"
+        Title="Csv_Preview" Height="150" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <ComboBox Name="wpfComboBox" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Width="150" SelectionChanged="ComboBox_SelectionChanged"/>
+        <Button Name="wpfButton" Visibility="Hidden" Content="Ok" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Click="wpfButton_Click"/>
+        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Text="Specify the header for the word which should be searched in the API" VerticalAlignment="Center"/>
+    </Grid>
+
+</Window>
