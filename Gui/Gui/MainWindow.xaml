@@ -38,7 +38,6 @@
         <Menu Grid.Column="0" Grid.ColumnSpan="5">
             <MenuItem Header="_Open Csv" Click="OpenCsv_Click"/>
             <MenuItem Header="_Settings" Click="Settings_Click"/>
-            <MenuItem Header="_Test" Click="MenuItem_Click"/>
         </Menu>
         <TextBlock Name="textBlockKeyWord"  Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Visibility="Hidden"/>
 

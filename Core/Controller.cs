@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 
 namespace Core
 {
@@ -12,11 +8,15 @@ namespace Core
         public static Api.Api? Api { get; set; }
 
         public static List<Byte[]> PictureData { get; set; }
-        public static string SaveLocation { get; set; }
+        public static string SavePicsLocation { get; set; }
         public static HttpClient httpClient = new HttpClient();
         public static event EventHandler OnNewPicturesAvailable;
         public static event EventHandler CallingApi;
-
+        public static event EventHandler OnError;
+        public static string ApiKey { get; set; }
+        public static apiTypes SelectedApiType { get; set; }
+        private static string SettingsLocation { get; set; }
+        public static bool NewInstall { get; set; }
         public enum apiTypes
         {
             pexels
@@ -24,31 +24,50 @@ namespace Core
 
         static Controller()
         {
-            SaveLocation = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\AnkiPhotoFinder";
+            SavePicsLocation = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\AnkiPhotoFinder";
+            SettingsLocation = SavePicsLocation + "\\Settings";
 
-            if (!Directory.Exists(SaveLocation))
+            if (!Directory.Exists(SavePicsLocation)) Directory.CreateDirectory(SavePicsLocation);
+            if (!Directory.Exists(SettingsLocation)) Directory.CreateDirectory(SettingsLocation);
+            if (!File.Exists(SettingsLocation + "\\Settings.json"))
             {
-                Directory.CreateDirectory(SaveLocation);
+                NewInstall = true;
             }
+            else
+            {
+                NewInstall = false;
+                LoadSettings();
+            }
+        }
+
+        public static void UpdateApiType(string text)
+        {
+            Enum.TryParse<apiTypes>(text, out apiTypes type);
+            SelectedApiType = type;
         }
 
         public static void LoadCsv(string path, char delimiter)
         {
             if (File.Exists(path))
             {
-                Data = new Data(path, delimiter);
-                Data.OnDataLoaded += NextPics;
+                try
+                {
+                    Data = new Data(path, delimiter);
+                    Data.OnDataLoaded += NextPics;
+                    LoadApi(SelectedApiType, ApiKey);
+                }
+                catch (Exception e)
+                {
+                    OnError?.Invoke(e, EventArgs.Empty);
+                }
 
-                //TODO: Controller.LoadCsv(): This shouldn't really be here but should be configured along with the settings...
-                //TODO: Controller.LoadCsv(): Api key should be stored in settings and not pulled from a text file...
-                LoadApi(apiTypes.pexels, File.ReadAllText(@"C:\Dev\Anki-Photo-Finder\SharedFiles\Secure\PexelsApi.txt"));
             }
             else
-            { 
+            {
                 throw new FileNotFoundException();
             }
         }
-           
+
         public static void LoadApi(apiTypes type, string apiKey)
         {
             switch (type)
@@ -60,7 +79,7 @@ namespace Core
                     break;
             }
         }
-        
+
         public static async void NextPics(object sender, EventArgs e)
         {
             if (Data.KeywordsToDo.Count > 0)
@@ -77,10 +96,36 @@ namespace Core
 
         public static string SavePic(string currentWord, byte[] img)
         {
-            string SaveFile = (SaveLocation + "\\" + currentWord + ".jpg");
+            string SaveFile = (SavePicsLocation + "\\" + currentWord + ".jpg");
             File.WriteAllBytes(SaveFile, img);
 
             return SaveFile;
+        }
+
+        private static void LoadSettings()
+        {
+            var SettingsFile = SettingsLocation + "\\Settings.json";
+            if (File.Exists(SettingsFile))
+            {
+                var file = File.ReadAllText(SettingsFile);
+                SettingsJson settings = (SettingsJson)JsonSerializer.Deserialize(file, typeof(SettingsJson));
+
+                Enum.TryParse<apiTypes>(settings.ApiType, out apiTypes result);
+                SelectedApiType = result;
+
+                ApiKey = settings.ApiKey;
+            }
+        }
+
+        public static void SaveSettings()
+        {
+            var SettingsFile = SettingsLocation + "\\Settings.json";
+
+            SettingsJson settingsToSave = new SettingsJson();
+            settingsToSave.ApiType = SelectedApiType.ToString();
+            settingsToSave.ApiKey = ApiKey;
+            string json = JsonSerializer.Serialize(settingsToSave);
+            File.WriteAllText(SettingsFile, json);
         }
     }
 }

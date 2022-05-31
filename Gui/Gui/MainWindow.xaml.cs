@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core;
+using Microsoft.Win32;
+using System;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Diagnostics;
-using Microsoft.Win32;
-using System.IO;
-using Core;
 
 namespace Gui
 {
@@ -27,6 +16,12 @@ namespace Gui
         public MainWindow()
         {
             InitializeComponent();
+
+            if (Controller.NewInstall)
+            {
+                Settings_Click(this, null);
+            }
+
             Controller.OnNewPicturesAvailable += RefreshPictures;
             Controller.CallingApi += HideButtons;
         }
@@ -71,9 +66,8 @@ namespace Gui
 
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
-            // This doesn't work
-            Debug.Write("Settings clicked"); 
-            
+            Settings settings = new Settings();
+            settings.ShowDialog();
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -154,7 +148,7 @@ namespace Gui
 
             var finishedKeyword = Controller.Data.KeywordsToDo.Pop();
             Controller.Data.KeywordsCompleted.Push(finishedKeyword);
-            
+
             if (Controller.Data.KeywordsToDo.Count != 0)
             {
                 Controller.NextPics(this, EventArgs.Empty);
@@ -212,6 +206,11 @@ namespace Gui
             }
 
             return bytes;
+        }
+        private void ErrorMessage(object obj, EventArgs e)
+        {
+            var message = (Exception)obj;
+            MessageBox.Show(message.Message);
         }
     }
 }
