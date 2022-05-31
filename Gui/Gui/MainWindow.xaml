@@ -24,12 +24,12 @@
             <RowDefinition Height="25"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Image Name="PicOne" Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch" Source="C:\Dev\Anki-Photo-Finder\SharedFiles\Misc\Tiger.jpg"/>
-        <Image Name="PicTwo" Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch" Source="C:\Dev\Anki-Photo-Finder\SharedFiles\Misc\Tiger.jpg"/>
-        <Image Name="PicThree" Grid.Column="3" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch" Source="C:\Dev\Anki-Photo-Finder\SharedFiles\Misc\Tiger.jpg"/>
-        <Image Name="PicFour" Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch" Source="C:\Dev\Anki-Photo-Finder\SharedFiles\Misc\Tiger.jpg"/>
-        <Image Name="PicFive" Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch" Source="C:\Dev\Anki-Photo-Finder\SharedFiles\Misc\Tiger.jpg"/>
-        <Image Name="PicSix" Grid.Column="3" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch" Source="C:\Dev\Anki-Photo-Finder\SharedFiles\Misc\Tiger.jpg"/>
+        <Image Name="PicOne" Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch"/>
+        <Image Name="PicTwo" Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch"/>
+        <Image Name="PicThree" Grid.Column="3" HorizontalAlignment="Stretch" Grid.Row="2" VerticalAlignment="Stretch"/>
+        <Image Name="PicFour" Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch"/>
+        <Image Name="PicFive" Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch"/>
+        <Image Name="PicSix" Grid.Column="3" HorizontalAlignment="Stretch" Grid.Row="4" VerticalAlignment="Stretch"/>
 
         <StatusBar Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="5">
             <StatusBarItem Name="myStatusBar" HorizontalAlignment="Right"/>
@@ -40,5 +40,14 @@
             <MenuItem Header="_Settings" Click="Settings_Click"/>
             <MenuItem Header="_Test" Click="MenuItem_Click"/>
         </Menu>
+        <TextBlock Name="textBlockKeyWord"  Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Visibility="Hidden"/>
+
+        <Button Name="btnOne" Grid.Column="1" Grid.Row="3" Content="Select" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Click="btn_Click" Visibility="Hidden"/>
+        <Button Name="btnTwo" Grid.Column="2" Grid.Row="3" Content="Select" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Click="btn_Click" Visibility="Hidden"/>
+        <Button Name="btnThree" Grid.Column="3" Grid.Row="3" Content="Select" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Click="btn_Click" Visibility="Hidden"/>
+        <Button Name="btnFour" Grid.Column="1" Grid.Row="5" Content="Select" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Click="btn_Click" Visibility="Hidden"/>
+        <Button Name="btnFive" Grid.Column="2" Grid.Row="5" Content="Select" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Click="btn_Click" Visibility="Hidden"/>
+        <Button Name="btnSix" Grid.Column="3" Grid.Row="5" Content="Select" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Click="btn_Click" Visibility="Hidden"/>
+        <TextBlock Grid.Column="2" HorizontalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Text="" TextAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Visibility="Hidden" Name="CompletedText"/>
     </Grid>
 </Window>

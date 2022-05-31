@@ -140,7 +140,10 @@ public class Data
         // Populate the Todo List
         foreach (var keyword in WordRows.Keys)
         {
-            KeywordsToDo.Push(keyword);
+            if (keyword != KeywordHeader)
+            {
+                KeywordsToDo.Push(keyword);
+            }
         }
 
         OnDataLoaded(this, EventArgs.Empty);

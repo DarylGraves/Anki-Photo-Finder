@@ -35,6 +35,7 @@ namespace Gui
         {
             Controller.Data.FindColumnNo(wpfComboBox.Text);
             Controller.Data.CreateCollection();
+            Controller.Data.AddColumn("Picture");
             this.Close();
         }
     }

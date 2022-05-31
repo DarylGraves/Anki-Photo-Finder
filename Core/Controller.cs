@@ -12,12 +12,24 @@ namespace Core
         public static Api.Api? Api { get; set; }
 
         public static List<Byte[]> PictureData { get; set; }
+        public static string SaveLocation { get; set; }
         public static HttpClient httpClient = new HttpClient();
         public static event EventHandler OnNewPicturesAvailable;
+        public static event EventHandler CallingApi;
 
         public enum apiTypes
         {
             pexels
+        }
+
+        static Controller()
+        {
+            SaveLocation = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\AnkiPhotoFinder";
+
+            if (!Directory.Exists(SaveLocation))
+            {
+                Directory.CreateDirectory(SaveLocation);
+            }
         }
 
         public static void LoadCsv(string path, char delimiter)
@@ -49,16 +61,26 @@ namespace Core
             }
         }
         
-        private static async void NextPics(object sender, EventArgs e)
+        public static async void NextPics(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Event was called successfully");
             if (Data.KeywordsToDo.Count > 0)
             {
+                CallingApi?.Invoke(null, EventArgs.Empty);
+
                 var currentKeyword = Data.KeywordsToDo.Peek();
                 var PicturesUrls = await Api.QueryApiAsync(currentKeyword);
+
                 PictureData = await Api.DownloadDataAsync(PicturesUrls);
                 OnNewPicturesAvailable?.Invoke(null, EventArgs.Empty);
             }
+        }
+
+        public static string SavePic(string currentWord, byte[] img)
+        {
+            string SaveFile = (SaveLocation + "\\" + currentWord + ".jpg");
+            File.WriteAllBytes(SaveFile, img);
+
+            return SaveFile;
         }
     }
 }
